@@ -30,25 +30,27 @@ function Admin() {
     setTimeout(() => setMessage({ type: '', text: '' }), 4000);
   };
 
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const [productsRes, categoriesRes] = await Promise.all([
+        axios.get('/api/products'),
+        axios.get('/api/categories')
+      ]);
+      setProducts(productsRes.data);
+      setCategories(categoriesRes.data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setMessage({ type: 'error', text: 'Error al cargar los datos' });
+      setTimeout(() => setMessage({ type: '', text: '' }), 4000);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const [productsRes, categoriesRes] = await Promise.all([
-          axios.get('/api/products'),
-          axios.get('/api/categories')
-        ]);
-        setProducts(productsRes.data);
-        setCategories(categoriesRes.data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        setMessage({ type: 'error', text: 'Error al cargar los datos' });
-        setTimeout(() => setMessage({ type: '', text: '' }), 4000);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleInputChange = (e) => {
