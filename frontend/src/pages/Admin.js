@@ -361,15 +361,26 @@ function Admin() {
                     </tr>
                   </thead>
                   <tbody>
-                    {products.map(product => (
-                      <tr key={product.id}>
-                        <td>
-                          <img
-                            src={product.image ? `http://localhost:5000${product.image}` : 'https://via.placeholder.com/60'}
-                            alt={product.name}
-                            className="table-image"
-                          />
-                        </td>
+                    {products.map(product => {
+                      // Determinar la URL de la imagen
+                      let imageUrl = 'https://via.placeholder.com/60';
+                      if (product.image) {
+                        if (product.image.startsWith('/productos/')) {
+                          imageUrl = product.image;
+                        } else {
+                          imageUrl = `http://localhost:5000${product.image}`;
+                        }
+                      }
+                      
+                      return (
+                        <tr key={product.id}>
+                          <td>
+                            <img
+                              src={imageUrl}
+                              alt={product.name}
+                              className="table-image"
+                            />
+                          </td>
                         <td>{product.name}</td>
                         <td>
                           <div className="category-cell">
@@ -399,7 +410,8 @@ function Admin() {
                           </div>
                         </td>
                       </tr>
-                    ))}
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
