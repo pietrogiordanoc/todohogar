@@ -7,8 +7,8 @@ import { mockProducts, mockCategories } from '../data/mockData';
 import './Home.css';
 
 function Home() {
-  const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
+  const [products, setProducts] = useState(mockProducts.slice(0, 8));
+  const [categories, setCategories] = useState(mockCategories);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
