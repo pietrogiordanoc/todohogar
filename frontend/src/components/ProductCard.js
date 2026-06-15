@@ -3,9 +3,17 @@ import { Link } from 'react-router-dom';
 import './ProductCard.css';
 
 function ProductCard({ product }) {
-  const imageUrl = product.image 
-    ? `http://localhost:5000${product.image}` 
-    : 'https://via.placeholder.com/300x300?text=Sin+Imagen';
+  // Determinar la URL de la imagen
+  let imageUrl = 'https://via.placeholder.com/300x300?text=Sin+Imagen';
+  if (product.image) {
+    // Si la imagen es de mock data (comienza con /productos/), usarla directamente
+    // Si es del backend (comienza con /uploads/), construir la URL completa
+    if (product.image.startsWith('/productos/')) {
+      imageUrl = product.image;
+    } else {
+      imageUrl = `http://localhost:5000${product.image}`;
+    }
+  }
 
   return (
     <Link to={`/productos/${product.id}`} className="product-card">

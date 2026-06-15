@@ -7,7 +7,9 @@ import './ProductDetail.css';
 
 function ProductDetail() {
   const { id } = useParams();
-  const [product, setProduct] = useState(null);
+  // Inicializar con el producto mock si existe
+  const initialProduct = mockProducts.find(p => p.id === parseInt(id));
+  const [product, setProduct] = useState(initialProduct || null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -51,9 +53,17 @@ function ProductDetail() {
     );
   }
 
-  const imageUrl = product.image 
-    ? `http://localhost:5000${product.image}` 
-    : 'https://via.placeholder.com/600x600?text=Sin+Imagen';
+  // Determinar la URL de la imagen
+  let imageUrl = 'https://via.placeholder.com/600x600?text=Sin+Imagen';
+  if (product.image) {
+    // Si la imagen es de mock data (comienza con /productos/), usarla directamente
+    // Si es del backend (comienza con /uploads/), construir la URL completa
+    if (product.image.startsWith('/productos/')) {
+      imageUrl = product.image;
+    } else {
+      imageUrl = `http://localhost:5000${product.image}`;
+    }
+  }
 
   return (
     <>
