@@ -26,25 +26,24 @@ function Admin() {
   });
 
   useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const [productsRes, categoriesRes] = await Promise.all([
+          axios.get('/api/products'),
+          axios.get('/api/categories')
+        ]);
+        setProducts(productsRes.data);
+        setCategories(categoriesRes.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        showMessage('error', 'Error al cargar los datos');
+      } finally {
+        setLoading(false);
+      }
+    };
     fetchData();
   }, []);
-
-  const fetchData = async () => {
-    setLoading(true);
-    try {
-      const [productsRes, categoriesRes] = await Promise.all([
-        axios.get('/api/products'),
-        axios.get('/api/categories')
-      ]);
-      setProducts(productsRes.data);
-      setCategories(categoriesRes.data);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      showMessage('error', 'Error al cargar los datos');
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const showMessage = (type, text) => {
     setMessage({ type, text });

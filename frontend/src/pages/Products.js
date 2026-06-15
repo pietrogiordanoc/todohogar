@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import axios from 'axios';
@@ -15,23 +15,18 @@ function Products() {
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get('/api/categories');
+        setCategories(response.data);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
+    };
     fetchCategories();
   }, []);
 
-  useEffect(() => {
-    fetchProducts();
-  }, [selectedCategory, selectedSubcategory, searchTerm]);
-
-  const fetchCategories = async () => {
-    try {
-      const response = await axios.get('/api/categories');
-      setCategories(response.data);
-    } catch (error) {
-      console.error('Error fetching categories:', error);
-    }
-  };
-
-  const fetchProducts = async () => {
+  const fetchProducts = useCallback(async () => {
     setLoading(true);
     try {
       const params = {};
@@ -46,7 +41,11 @@ function Products() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [selectedCategory, selectedSubcategory, searchTerm]);
+
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
 
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);

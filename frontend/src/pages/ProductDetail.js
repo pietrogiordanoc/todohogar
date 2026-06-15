@@ -11,20 +11,19 @@ function ProductDetail() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const response = await axios.get(`/api/products/${id}`);
+        setProduct(response.data);
+      } catch (error) {
+        console.error('Error fetching product:', error);
+        setError('Producto no encontrado');
+      } finally {
+        setLoading(false);
+      }
+    };
     fetchProduct();
   }, [id]);
-
-  const fetchProduct = async () => {
-    try {
-      const response = await axios.get(`/api/products/${id}`);
-      setProduct(response.data);
-    } catch (error) {
-      console.error('Error fetching product:', error);
-      setError('Producto no encontrado');
-    } finally {
-      setLoading(false);
-    }
-  };
 
   if (loading) {
     return (
