@@ -18,9 +18,10 @@ function Products() {
     const fetchCategories = async () => {
       try {
         const response = await axios.get('/api/categories');
-        setCategories(response.data);
+        setCategories(Array.isArray(response.data) ? response.data : []);
       } catch (error) {
         console.error('Error fetching categories:', error);
+        setCategories([]);
       }
     };
     fetchCategories();
@@ -35,9 +36,10 @@ function Products() {
       if (searchTerm) params.search = searchTerm;
 
       const response = await axios.get('/api/products', { params });
-      setProducts(response.data);
+      setProducts(Array.isArray(response.data) ? response.data : []);
     } catch (error) {
       console.error('Error fetching products:', error);
+      setProducts([]);
     } finally {
       setLoading(false);
     }

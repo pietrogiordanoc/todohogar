@@ -20,10 +20,13 @@ function Home() {
         axios.get('/api/products'),
         axios.get('/api/categories')
       ]);
-      setProducts(productsRes.data.slice(0, 8));
-      setCategories(categoriesRes.data);
+      setProducts(Array.isArray(productsRes.data) ? productsRes.data.slice(0, 8) : []);
+      setCategories(Array.isArray(categoriesRes.data) ? categoriesRes.data : []);
     } catch (error) {
       console.error('Error fetching data:', error);
+      // Mantener arrays vacíos en caso de error
+      setProducts([]);
+      setCategories([]);
     } finally {
       setLoading(false);
     }

@@ -37,12 +37,14 @@ function Admin() {
         axios.get('/api/products'),
         axios.get('/api/categories')
       ]);
-      setProducts(productsRes.data);
-      setCategories(categoriesRes.data);
+      setProducts(Array.isArray(productsRes.data) ? productsRes.data : []);
+      setCategories(Array.isArray(categoriesRes.data) ? categoriesRes.data : []);
     } catch (error) {
       console.error('Error fetching data:', error);
       setMessage({ type: 'error', text: 'Error al cargar los datos' });
       setTimeout(() => setMessage({ type: '', text: '' }), 4000);
+      setProducts([]);
+      setCategories([]);
     } finally {
       setLoading(false);
     }
