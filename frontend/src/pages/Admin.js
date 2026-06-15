@@ -25,6 +25,11 @@ function Admin() {
     image: null
   });
 
+  const showMessage = (type, text) => {
+    setMessage({ type, text });
+    setTimeout(() => setMessage({ type: '', text: '' }), 4000);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -37,18 +42,14 @@ function Admin() {
         setCategories(categoriesRes.data);
       } catch (error) {
         console.error('Error fetching data:', error);
-        showMessage('error', 'Error al cargar los datos');
+        setMessage({ type: 'error', text: 'Error al cargar los datos' });
+        setTimeout(() => setMessage({ type: '', text: '' }), 4000);
       } finally {
         setLoading(false);
       }
     };
     fetchData();
   }, []);
-
-  const showMessage = (type, text) => {
-    setMessage({ type, text });
-    setTimeout(() => setMessage({ type: '', text: '' }), 4000);
-  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
