@@ -1,0 +1,138 @@
+.location-page {
+  min-height: calc(100vh - 200px);
+}
+
+.location-header {
+  background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
+  color: white;
+  padding: 3rem 0;
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.location-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.location-header p {
+  font-size: 1.1rem;
+  opacity: 0.95;
+}
+
+.location-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.location-info h2,
+.map-container h2 {
+  font-size: 1.75rem;
+  color: #1e40af;
+  margin-bottom: 1.5rem;
+}
+
+.info-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.info-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.info-card h3 {
+  font-size: 1.25rem;
+  color: #111827;
+  margin-bottom: 1rem;
+}
+
+.info-card p {
+  color: #4b5563;
+  line-height: 1.8;
+  font-size: 1rem;
+}
+
+.info-card strong {
+  color: #1e40af;
+}
+
+.info-card ul {
+  list-style: none;
+  margin-top: 0.75rem;
+  padding-left: 0;
+}
+
+.info-card ul li {
+  color: #6b7280;
+  padding: 0.5rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.info-card ul li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: #2563eb;
+  font-weight: bold;
+}
+
+.map-container {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.map-placeholder {
+  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+  border-radius: 12px;
+  padding: 4rem 2rem;
+  text-align: center;
+  min-height: 450px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 2px dashed #d1d5db;
+}
+
+.map-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.map-placeholder p {
+  font-size: 1.25rem;
+  color: #6b7280;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.map-placeholder small {
+  color: #9ca3af;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 968px) {
+  .location-content {
+    grid-template-columns: 1fr;
+  }
+
+  .location-header h1 {
+    font-size: 1.75rem;
+  }
+
+  .map-placeholder {
+    min-height: 300px;
+    padding: 3rem 1.5rem;
+  }
+}
