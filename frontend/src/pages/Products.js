@@ -38,9 +38,29 @@ function Products() {
       if (searchTerm) params.search = searchTerm;
 
       const response = await axios.get('/api/products', { params });
-      setProducts(Array.isArray(response.data) ? response.data : []);
+      
+      // Si la respuesta es válida, usar datos del backend
+      if (Array.isArray(response.data) && response.data.length > 0) {
+        setProducts(response.data);
+      } else {
+        // Si no hay datos, usar mock
+        let filtered = mockProducts;
+        if (selectedCategory) {
+          filtered = filtered.filter(p => p.category === selectedCategory);
+        }
+        if (selectedSubcategory) {
+          filtered = filtered.filter(p => p.subcategory === selectedSubcategory);
+        }
+        if (searchTerm) {
+          filtered = filtered.filter(p => 
+            p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            p.description.toLowerCase().includes(searchTerm.toLowerCase())
+          );
+        }
+        setProducts(filtered);
+      }
     } catch (error) {
-      console.error('Error fetching products:', error);
+      console.error('Error fetching products, using mock data:', error);
       // Usar datos mock y filtrar según criterios
       let filtered = mockProducts;
       if (selectedCategory) {

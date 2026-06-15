@@ -17,14 +17,23 @@ function Home() {
 
   const fetchData = async () => {
     try {
+      // Intentar obtener datos del backend
       const [productsRes, categoriesRes] = await Promise.all([
         axios.get('/api/products'),
         axios.get('/api/categories')
       ]);
-      setProducts(Array.isArray(productsRes.data) ? productsRes.data.slice(0, 8) : []);
-      setCategories(Array.isArray(categoriesRes.data) ? categoriesRes.data : []);
+      
+      // Si la respuesta es válida, usar datos del backend
+      if (Array.isArray(productsRes.data) && productsRes.data.length > 0) {
+        setProducts(productsRes.data.slice(0, 8));
+        setCategories(Array.isArray(categoriesRes.data) ? categoriesRes.data : mockCategories);
+      } else {
+        // Si no hay datos, usar mock
+        setProducts(mockProducts.slice(0, 8));
+        setCategories(mockCategories);
+      }
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error('Error fetching data, using mock data:', error);
       // Usar datos mock cuando el backend no está disponible
       setProducts(mockProducts.slice(0, 8));
       setCategories(mockCategories);
