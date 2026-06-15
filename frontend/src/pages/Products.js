@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import axios from 'axios';
 import ProductCard from '../components/ProductCard';
+import { mockProducts, mockCategories } from '../data/mockData';
 import './Products.css';
 
 function Products() {
@@ -21,7 +22,8 @@ function Products() {
         setCategories(Array.isArray(response.data) ? response.data : []);
       } catch (error) {
         console.error('Error fetching categories:', error);
-        setCategories([]);
+        // Usar datos mock cuando el backend no está disponible
+        setCategories(mockCategories);
       }
     };
     fetchCategories();
@@ -39,7 +41,21 @@ function Products() {
       setProducts(Array.isArray(response.data) ? response.data : []);
     } catch (error) {
       console.error('Error fetching products:', error);
-      setProducts([]);
+      // Usar datos mock y filtrar según criterios
+      let filtered = mockProducts;
+      if (selectedCategory) {
+        filtered = filtered.filter(p => p.category === selectedCategory);
+      }
+      if (selectedSubcategory) {
+        filtered = filtered.filter(p => p.subcategory === selectedSubcategory);
+      }
+      if (searchTerm) {
+        filtered = filtered.filter(p => 
+          p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          p.description.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+      }
+      setProducts(filtered);
     } finally {
       setLoading(false);
     }

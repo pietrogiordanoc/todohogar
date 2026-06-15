@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import axios from 'axios';
 import ProductCard from '../components/ProductCard';
+import { mockProducts, mockCategories } from '../data/mockData';
 import './Home.css';
 
 function Home() {
@@ -24,9 +25,9 @@ function Home() {
       setCategories(Array.isArray(categoriesRes.data) ? categoriesRes.data : []);
     } catch (error) {
       console.error('Error fetching data:', error);
-      // Mantener arrays vacíos en caso de error
-      setProducts([]);
-      setCategories([]);
+      // Usar datos mock cuando el backend no está disponible
+      setProducts(mockProducts.slice(0, 8));
+      setCategories(mockCategories);
     } finally {
       setLoading(false);
     }

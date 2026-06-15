@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import axios from 'axios';
+import { mockProducts } from '../data/mockData';
 import './ProductDetail.css';
 
 function ProductDetail() {
@@ -17,7 +18,13 @@ function ProductDetail() {
         setProduct(response.data);
       } catch (error) {
         console.error('Error fetching product:', error);
-        setError('Producto no encontrado');
+        // Buscar en datos mock cuando el backend no está disponible
+        const mockProduct = mockProducts.find(p => p.id === parseInt(id));
+        if (mockProduct) {
+          setProduct(mockProduct);
+        } else {
+          setError('Producto no encontrado');
+        }
       } finally {
         setLoading(false);
       }
