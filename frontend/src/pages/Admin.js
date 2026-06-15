@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import axios from 'axios';
+import { mockProducts, mockCategories } from '../data/mockData';
 import './Admin.css';
 
 function Admin() {
-  const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
+  const [products, setProducts] = useState(mockProducts);
+  const [categories, setCategories] = useState(mockCategories);
   const [loading, setLoading] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
@@ -43,8 +44,9 @@ function Admin() {
       console.error('Error fetching data:', error);
       setMessage({ type: 'error', text: 'Error al cargar los datos' });
       setTimeout(() => setMessage({ type: '', text: '' }), 4000);
-      setProducts([]);
-      setCategories([]);
+      // Usar datos mock cuando el backend no está disponible
+      setProducts(Array.isArray(mockProducts) ? mockProducts : []);
+      setCategories(Array.isArray(mockCategories) ? mockCategories : []);
     } finally {
       setLoading(false);
     }
