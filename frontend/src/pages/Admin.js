@@ -53,7 +53,10 @@ function Admin() {
   };
 
   useEffect(() => {
-    fetchData();
+    // Solo intentar cargar datos del backend en desarrollo
+    if (process.env.NODE_ENV === 'development') {
+      fetchData();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
